@@ -1,0 +1,23 @@
+* {
+  box-sizing: border-box;
+}
+
+.wrapper_outer {
+  overflow: hidden;
+  white-space: nowrap;
+  height: 500px;
+}
+
+.wrapper_inner {
+  transform: translate3d(50%, 0, 0);
+  height: 100%;
+}
+
+.item_wrapper {
+  display: inline;
+  padding: 0 50px 0 0;
+}
+
+.item_wrapper:nth-child(1) {
+  transform: translateX(50px);
+}
