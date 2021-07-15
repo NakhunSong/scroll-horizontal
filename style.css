@@ -2,15 +2,20 @@
   box-sizing: border-box;
 }
 
+body {
+  user-select: none;
+}
+
 .wrapper_outer {
   overflow: hidden;
   white-space: nowrap;
-  height: 500px;
+  user-select: none;
 }
 
 .wrapper_inner {
   transform: translate3d(50%, 0, 0);
   height: 100%;
+  user-select: none;
 }
 
 .item_wrapper {
@@ -20,4 +25,8 @@
 
 .item_wrapper:nth-child(1) {
   transform: translateX(50px);
+}
+
+.item {
+  display: inline-block;
 }
