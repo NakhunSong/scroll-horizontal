@@ -1,45 +1,45 @@
-(function() {
-  const array = Array.from({ length: 20 }).map((e, index) => index + 1)
-  array.forEach((e) => {
-    const $item = document.createElement('div')
-    const $itemWrapper = document.createElement('div')
-    const $wrapperInner = document.querySelector('.wrapper_inner')
-    $item.innerText = `item ${e}`
-    $item.setAttribute('class', 'item')
-    $itemWrapper.setAttribute('class', 'item_wrapper')
-    $itemWrapper.append($item)
-    $wrapperInner.append($itemWrapper)
-    $itemWrapper.onmousedown = function(event) {
-      console.log('mouse down!')
+const $wrapperInner = document.querySelector('.wrapper_inner')
+let scrollLeft;
+let startX;
+const ITEMS = Array.from({ length: 20 }).map((e, index) => index + 1)
+ITEMS.forEach((e) => {
+  const $item = document.createElement('div')
+  const $itemWrapper = document.createElement('div')
+  $item.innerText = `item ${e}`
+  $item.setAttribute('class', 'item')
+  $itemWrapper.setAttribute('class', 'item_wrapper')
+  $itemWrapper.append($item)
+  $wrapperInner.append($itemWrapper)
+})
 
-      let shiftX = event.clientX - $wrapperInner.getBoundingClientRect().left
+function handleMouseMove(event) {
+  console.log('mouse move!')
+  event.preventDefault()
+  const x = event.pageX - $wrapperInner.offsetLeft
+  const walk = (x - startX) * 2
+  const result = scrollLeft - walk
+  $wrapperInner.scrollLeft = result
+}
 
-      function moveAt(pageX) {
-        $wrapperInner.style.transform = `translateX(${pageX - shiftX + 'px'})`
-      }
-      
-      function onMouseMove(e) {
-        moveAt(e.pageX)
-      }
-
-      moveAt(event.pageX)
-
-      $itemWrapper.addEventListener('mousemove', onMouseMove)
-      $itemWrapper.onmouseout = function() {
-        console.log('mouse out!')
-        $itemWrapper.removeEventListener('mousemove', onMouseMove)
-        $itemWrapper.onmouseout = null
-        $itemWrapper.onmouseup = null
-      }
-      $itemWrapper.onmouseup = function() {
-        console.log('mouse up!')
-        $itemWrapper.removeEventListener('mousemove', onMouseMove)
-        $itemWrapper.onmouseup = null
-        $itemWrapper.onmouseout = null
-      }
-    }
-    $wrapperInner.ondragstart = function() {
-      return false
-    }
-  })
-}())
+$wrapperInner.onmousedown = function(event) {
+  console.log('mouse down!')
+  $wrapperInner.classList.add('grab')
+  startX = event.pageX - $wrapperInner.offsetLeft
+  scrollLeft = $wrapperInner.scrollLeft
+  
+  $wrapperInner.onmousemove = handleMouseMove
+  $wrapperInner.onmouseleave = function() {
+    console.log('mouse leave!')
+    $wrapperInner.classList.remove('grab')
+    $wrapperInner.onmousemove = null
+    $wrapperInner.onmouseup = null
+    $wrapperInner.onmouseleave = null
+  }
+  $wrapperInner.onmouseup = function() {
+    console.log('mouse up!')
+    $wrapperInner.classList.remove('grab')
+    $wrapperInner.onmousemove = null
+    $wrapperInner.onmouseup = null
+    $wrapperInner.onmouseleave = null
+  }
+}
