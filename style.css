@@ -23,14 +23,10 @@ html, body {
   width: 100%;
 }
 
-.wrapper_inner::-webkit-scrollbar {
-  display: none;
-}
-
 .wrapper_inner.grab {
   cursor: grabbing;
   font-size: 18px;
-  transform: scale(1.1, 1.1);
+  /* transform: scale(1.1, 1.1); */
 }
 
 .item_wrapper {
@@ -50,4 +46,16 @@ html, body {
 
 .item_wrapper:nth-last-child(1) {
   margin-right: 50%;
+}
+
+.item_wrapper.active {
+  background-color: orange;
+}
+
+.target {
+  position: absolute;
+  border: 2px solid black;
+  margin-left: 50%;
+  height: 200px;
+  width: 200px;
 }
