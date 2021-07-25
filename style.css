@@ -26,7 +26,10 @@ html, body {
 .wrapper_inner.grab {
   cursor: grabbing;
   font-size: 18px;
-  /* transform: scale(1.1, 1.1); */
+}
+
+.wrapper_inner::-webkit-scrollbar {
+  display: none;
 }
 
 .item_wrapper {

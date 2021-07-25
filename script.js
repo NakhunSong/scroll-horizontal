@@ -26,10 +26,14 @@ function scrollToHorizontal(walk) {
 }
 
 function moveCenter(focusedItem) {
-  const $itemWrappers = document.querySelectorAll('.item_wrapper')
-  const firstItemLeft = $itemWrappers[0].getClientRects()[0].left
+  if (!focusedItem) return
+  const itemWrapperSelector = '.item_wrapper'
+  const $itemWrapperFirst = document.querySelector(itemWrapperSelector)
+  const $itemWrapperActive = document.querySelector(`${itemWrapperSelector}.active`)
+  const firstItemLeft = $itemWrapperFirst.getClientRects()[0].left
   const walk = Math.round(focusedItem.getClientRects()[0].left - firstItemLeft)
   scrollToHorizontal(walk)
+  $itemWrapperActive.classList.remove('active')
   focusedItem.classList.add('active')
 }
 
@@ -40,7 +44,6 @@ function getClosest() {
   let leftCollapse = 0
   let rightCollapse = 0
   $itemWrappers.forEach((item) =>  {
-    item.classList.remove('active')
     const { left, right } = item.getClientRects()[0]
     if (left < targetLeft && targetLeft < right) {
       leftItem = item
@@ -86,3 +89,9 @@ $wrapperInner.onmousedown = function(event) {
     moveCenter(focusedItem)
   }
 }
+
+$wrapperInner.onscroll = debounce(function() {
+  console.log('scroll')
+  const focusedItem = getClosest()
+  moveCenter(focusedItem)
+}, 200)
